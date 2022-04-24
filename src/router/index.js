@@ -20,6 +20,21 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
+});
+
+router.beforeEach((to, from, next) => {
+  const isOffline = false;
+  if(!isOffline){
+    const publicPages = ['/'];
+    const authRequired = !publicPages.includes(to.path);
+    if(authRequired){
+      next('/')
+    }else{
+      next();
+    }
+  }else{
+    next();
+  }
 })
 
 export default router
